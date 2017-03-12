@@ -17,20 +17,20 @@ This is an extension of the development workflow first described in
 
 * Releases are published to [Clojars](https://clojars.org/com.stuartsierra/component.repl)
 
-* Latest stable release is [0.1.0](https://clojars.org/com.stuartsierra/component.repl/versions/0.1.0)
+* Latest stable release is [0.2.0](https://clojars.org/com.stuartsierra/component.repl/versions/0.2.0)
 
 * [All released versions](https://clojars.org/com.stuartsierra/component.repl/versions)
 
 [Leiningen] dependency information:
 
-    [com.stuartsierra/component.repl "0.1.0"]
+    [com.stuartsierra/component.repl "0.2.0"]
 
 [Maven] dependency information:
 
     <dependency>
       <groupId>com.stuartsierra</groupId>
       <artifactId>component.repl</artifactId>
-      <version>0.1.0</version>
+      <version>0.2.0</version>
     </dependency>
 
 [Leiningen]: http://leiningen.org/
@@ -44,7 +44,7 @@ Require `com.stuartsierra.component.repl` in your development
 namespace.
 
 ```clojure
-(ns example
+(ns dev
   (:require
    [com.stuartsierra.component :as component]
    [com.stuartsierra.component.repl
@@ -78,6 +78,54 @@ The current system under development is available as the Var
 
     example=> (keys system)
     (:server :database :cache)
+
+
+
+## Bootstrapping the `user` namespace
+
+Clojure will automatically load a file named named `user.clj` on REPL
+start-up. Usually it is not a good idea to do to much in `user.clj`,
+because any exception thrown while loading `user.clj` will prevent the
+REPL from starting.
+
+The namespace `com.stuartsierra.component.user-helpers` provides a few
+convenience functions that you can `:refer` into the `user` namespace
+to quickly "boot" the component.repl system.
+
+The `user-helpers` namespace has no load-time dependencies: It will
+lazily load other namespaces as needed, so it does not interfere with
+fast startup of the REPL itself.
+
+To use these helpers, place a `user.clj` file on the classpath (in a
+directory that will **not** be packaged with your application or
+library) containing the following:
+
+```clojure
+(ns user
+  (:require
+   [com.stuartsierra.component.user-helpers :refer [dev go reset]]))
+```
+
+Then, after starting a REPL, you can immediately run one of these
+functions:
+
+* `(go)` or `(reset)` to load all source code, start the component
+  system running, and switch to the `dev` namespace.
+
+* `(dev)` to just load code and switch to `dev` without starting the
+  system.
+
+If your develompent namespace is not named `dev`, you can call
+`set-dev-ns` with the (symbol) name of your development namespace:
+
+```clojure
+(ns user
+  (:require
+   [com.stuartsierra.component.user-helpers 
+    :refer [dev go reset set-dev-ns]]))
+
+(set-dev-ns 'com.example.my-app-dev)
+```
 
 
 
