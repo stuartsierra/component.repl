@@ -3,8 +3,24 @@
   functions lazily load the tools.namespace and component.repl
   namespaces, to avoid delaying the start of a REPL.")
 
+(def dev-ns-name
+  "The symbol name of the namespace used for interactive development."
+  'dev)
+
+(defn set-dev-ns
+  "Specifies the symbol name of the namespace to be used for
+  interactive development. The functions `dev`, `go`, and `reset` will
+  switch to this namespace. Defaults to 'dev."
+  [sym]
+  {:pre [(symbol? sym)]}
+  (alter-var-root #'dev-ns-name (constantly sym)))
+
 (defn- switch-to-dev []
-  (in-ns 'dev)
+  (when-not (find-ns dev-ns-name)
+    (throw (ex-info (str "Development namespace does not exist: "
+                         (pr-str dev-ns-name))
+                    {:dev-ns-name dev-ns-name})))
+  (in-ns dev-ns-name)
   :ok)
 
 (defn- invoke
