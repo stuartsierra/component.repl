@@ -48,7 +48,7 @@ namespace.
   (:require
    [com.stuartsierra.component :as component]
    [com.stuartsierra.component.repl
-     :refer [reset set-init start stop system])))
+     :refer [reset set-init start stop system]]))
 ```
 
 Provide an initializer function to
