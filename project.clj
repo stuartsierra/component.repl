@@ -4,6 +4,6 @@
   :license {:name "MIT license"
             :url "https://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.8.0" :scope "provided"]
-                 [com.stuartsierra/component "0.3.2"]
-                 [org.clojure/tools.namespace "0.2.11"]]
+                 [com.stuartsierra/component "1.1.0"]
+                 [org.clojure/tools.namespace "1.2.0"]]
   :repositories [["releases" "https://clojars.org/repo/"]])
