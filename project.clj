@@ -1,4 +1,4 @@
-(defproject com.stuartsierra/component.repl "1.0.0"
+(defproject com.stuartsierra/component.repl "1.0.1-SNAPSHOT"
   :description "Interactive development utilities for the Component framework"
   :url "https://github.com/stuartsierra/component.repl"
   :license {:name "MIT license"
